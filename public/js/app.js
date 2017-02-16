@@ -9,10 +9,13 @@ var numberOfBreaks = 0;
 var minutes = document.querySelector('#minutes');
 var seconds = document.querySelector('#seconds');
 var startButton = document.querySelector('#start');
+var stopButton = document.querySelector('#stop');
 
 // Initialization code
   //eventListeners
   startButton.addEventListener('click', start);
+  stopButton.addEventListener('click', stop);
+  render();
 
 // Function Definitions
 function start(){
@@ -21,8 +24,39 @@ function start(){
   }
 }
 
-function tick(){
-  console.log('tick');
+function stop(){
+  if(timer){
+    timer = clearInterval(timer);
+  }
 }
 
-function render(){}
+function tick(){
+  decrementMinutes();
+  decrementSeconds();
+  render();
+}
+function decrementMinutes(){
+  if(secondsLeft === 0){
+    minutesLeft -= 1;
+  }
+}
+function decrementSeconds(){
+  if(secondsLeft === 0){
+    secondsLeft = 59;
+  } else {
+    secondsLeft -= 1;
+  }
+}
+
+function render(){
+  minutes.textContent = pad(minutesLeft);
+  seconds.textContent = pad(secondsLeft);
+}
+
+function pad(num){
+  if(num < 10){
+    return `0${num}`;
+  } else {
+    return num;
+  }
+}
