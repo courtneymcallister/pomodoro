@@ -1,7 +1,7 @@
 // Data and variable declarations
 var timer; //start/stop the timer using this -- clearInterval
-var minutesLeft = 25;
-var secondsLeft = 0;
+var minutesLeft = 0;
+var secondsLeft = 5;
 var isOnBreak = false;
 var numberOfBreaks = 0;
 
@@ -10,15 +10,18 @@ var minutes = document.querySelector('#minutes');
 var seconds = document.querySelector('#seconds');
 var startButton = document.querySelector('#start');
 var stopButton = document.querySelector('#stop');
+var resetButton = document.querySelector('#reset');
 
 // Initialization code
   //eventListeners
   startButton.addEventListener('click', start);
   stopButton.addEventListener('click', stop);
+  // resetButton.addEventListener('click', reset);
   render();
 
 // Function Definitions
 function start(){
+  console.log(timer);
   if(!timer){
     timer = setInterval(tick, 1000);
   }
@@ -31,6 +34,19 @@ function stop(){
 }
 
 function tick(){
+  if(secondsLeft === 0 && minutesLeft === 0){
+    clearInterval(timer);
+    timer = null; //dereference
+    if(isOnBreak){
+      numberOfBreaks += 1;
+      resetWorkTime();
+    } else {
+      resetBreakTime();
+    }
+    isOnBreak = !isOnBreak;
+    render();
+    return;
+  }
   decrementMinutes();
   decrementSeconds();
   render();
@@ -59,4 +75,19 @@ function pad(num){
   } else {
     return num;
   }
+}
+
+function resetWorkTime(){
+  minutesLeft = 0;
+  secondsLeft = 05;
+}
+
+function resetBreakTime(){
+  if(numberOfBreaks < 3){
+    minutesLeft = 5;
+  } else {
+    minutesLeft = 15;
+    numberOfBreaks = 0;
+  }
+  secondsLeft = 0;
 }
