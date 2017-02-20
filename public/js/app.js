@@ -13,6 +13,7 @@ var Timer = {
     this.seconds = document.querySelector('#seconds');
     this.startButton = document.querySelector('#start');
     this.pauseButton = document.querySelector('#pause');
+    this.resetButton = document.querySelector('#reset');
   },
   render: function(){
     this.minutes.textContent = this.pad(this.minutesLeft);
@@ -22,21 +23,46 @@ var Timer = {
     //.bind(this) takes the meaning of ‘this’ from addListeners and pushes that meaning into the start function
     this.startButton.addEventListener('click', this.start.bind(this));
     this.pauseButton.addEventListener('click', this.pause.bind(this));
+    this.resetButton.addEventListener('click', this.reset.bind(this));
   },
   start: function(){
     if(!this.timer){
       this.timer = setInterval(this.tick.bind(this), 1000);
     }
+    document.querySelector("#start-div").style.display="none";
+    document.querySelector("#pause-div").style.display="block";
   },
+
   pause: function(){
     if(this.timer){
       this.timer = clearInterval(this.timer);
     }
+    document.querySelector("#pause-div").style.display="none";
+    document.querySelector("#start-div").style.display="block";
   },
+
+  reset: function(){
+    this.timer = clearInterval(this.timer);
+    this.minutesLeft = 25;
+    this.secondsLeft = 0;
+    this.render();
+    document.querySelector("#pause-div").style.display="none";
+    document.querySelector("#start-div").style.display="block";
+  },
+
+  // toggleButtons: function(){ //this needs work duuuuuuuuude
+  //   displayStart = document.querySelector("#start-div")
+  //   displayPause = document.querySelector("#pause-div")
+  //
+  // }
+
   tick: function(){
     if(this.secondsLeft === 0 && this.minutesLeft === 0){
       clearInterval(this.timer);
       this.timer = null; //dereference
+      document.querySelector("#start-div").style.display="block"
+      document.querySelector("#pause-div").style.display="none"
+
       if(this.isOnBreak){
         this.numberOfBreaks += 1;
         this.resetWorkTime();
