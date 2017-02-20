@@ -3,13 +3,21 @@
 }
 
 .nav{
-  color:white;
+  height: 50px;
+  background-color: grey;
+}
+
+.nav-text{
+  color: lightgrey;
+  padding-left: 20px;
+  padding-top: 9px;
+  font-size: 20px;
 }
 
 #display{
   font-size: 80px;
   font-family: "Courier New", Courier, monospace;
-  padding-left: 72px;
+  padding-left: 70px;
   color: #D8DEDE;
 }
 
@@ -77,5 +85,5 @@
 
 #reset:focus{
   outline: 0;
-  border-color: #d64040;
+  border-color: transparent;
 }

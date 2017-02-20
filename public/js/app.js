@@ -14,6 +14,7 @@ var Timer = {
     this.startButton = document.querySelector('#start');
     this.pauseButton = document.querySelector('#pause');
     this.resetButton = document.querySelector('#reset');
+    this.sound = document.querySelector('#sound');
   },
   render: function(){
     this.minutes.textContent = this.pad(this.minutesLeft);
@@ -45,6 +46,8 @@ var Timer = {
     this.timer = clearInterval(this.timer);
     this.minutesLeft = 25;
     this.secondsLeft = 0;
+    this.isOnBreak = false;
+    this.numberOfBreaks = 0;
     this.render();
     document.querySelector("#pause-div").style.display="none";
     document.querySelector("#start-div").style.display="block";
@@ -58,6 +61,7 @@ var Timer = {
 
   tick: function(){
     if(this.secondsLeft === 0 && this.minutesLeft === 0){
+      this.notificationSound();
       clearInterval(this.timer);
       this.timer = null; //dereference
       document.querySelector("#start-div").style.display="block"
@@ -109,6 +113,9 @@ var Timer = {
     }
     this.secondsLeft = 0;
   },
+  notificationSound: function(){
+    this.sound.play();
+  }
 
 };
 Timer.init();
